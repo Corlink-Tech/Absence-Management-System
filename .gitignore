@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+__pycache__/
+*.py[cod]
+*.sqlite3
+backend/.venv/
+node_modules/
+dist/
+coverage/
+.env
+*.tsbuildinfo

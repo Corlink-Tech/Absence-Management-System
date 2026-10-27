@@ -2,6 +2,32 @@
   - SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+
+# سامانه مدیریت مرخصی و غیبت هلدینگ زکریا شیمی
+
+این workspace در حال تبدیل از مرجع فنی یک افزونهٔ Nextcloud به سامانه‌ای مستقل است. کد محصول جدید در `backend/` و `src/` قرار دارد و برای اجرای آن به Nextcloud نیازی نیست.
+
+**وضعیت:** برش اولیهٔ Django/DRF، PostgreSQL، نشست امن، API درخواست/سهمیه و رابط React فارسی پیاده شده است؛ این سامانه هنوز برای بهره‌برداری عملیاتی آماده نیست. فهرست دقیق کارهای انجام‌شده/باقی‌مانده در [ماتریس قابلیت‌ها](docs/feature-matrix.md) و مراحل اجرا در [راهنمای توسعه](docs/getting-started.md) است.
+
+شروع محلی: `docker compose up --build`، سپس [دستورهای ایجاد مدیر و شرکت](docs/getting-started.md). این Compose فقط محیط توسعه است؛ از `runserver` و کلیدهای محلی استفاده می‌کند و TLS، worker، backup/restore عملیاتی و پایش ندارد.
+
+اسناد تحلیل و طراحی:
+
+- [نیازمندی‌ها](docs/requirements.md)
+- [معماری](docs/architecture.md)
+- [مدل داده](docs/data-model.md)
+- [مجوزها](docs/permissions-matrix.md)
+- [گردش‌کار](docs/workflows.md)
+- [امنیت](docs/security.md)
+- [قرارداد API و schema زنده](docs/api.md)
+- [برنامه آزمون](docs/testing.md)
+- [استقرار و بازیابی](docs/deployment.md)
+- [تصمیم‌ها و فرضیات](docs/decisions.md)
+
+## مرجع تاریخی Nextcloud
+
+محتوای پایین این فایل، README محصول Nextcloud منبع است و قابلیت‌هایش به محصول مستقل منتقل یا تأییدشده محسوب نمی‌شوند.
+
 <div align="center">
 
 # Absence 🌴

@@ -1,0 +1,52 @@
+# SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: zsh_leave
+      POSTGRES_USER: zsh_leave
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-development-only-change-me}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U zsh_leave -d zsh_leave"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+    environment:
+      DJANGO_DEBUG: "true"
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY:-development-only-change-me}
+      DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1,backend
+      DB_ENGINE: postgresql
+      DB_NAME: zsh_leave
+      DB_USER: zsh_leave
+      DB_PASSWORD: ${DB_PASSWORD:-development-only-change-me}
+      DB_HOST: db
+      DB_PORT: "5432"
+    depends_on:
+      db:
+        condition: service_healthy
+    command: ["sh", "-c", "python manage.py migrate --noinput && python manage.py runserver 0.0.0.0:8000"]
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    environment:
+      VITE_API_PROXY_TARGET: http://backend:8000
+    depends_on:
+      - backend
+    ports:
+      - "5173:5173"
+
+volumes:
+  postgres_data:
