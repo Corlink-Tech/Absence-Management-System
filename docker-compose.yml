@@ -23,7 +23,8 @@ services:
     environment:
       DJANGO_DEBUG: "true"
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY:-development-only-change-me}
-      DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1,backend
+      DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1,backend,.app.github.dev
+      DJANGO_CSRF_TRUSTED_ORIGINS: http://localhost:5173,http://127.0.0.1:5173,https://localhost:5174,https://127.0.0.1:5174,https://*.app.github.dev
       DB_ENGINE: postgresql
       DB_NAME: zsh_leave
       DB_USER: zsh_leave

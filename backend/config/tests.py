@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
 # SPDX-License-Identifier: AGPL-3.0-or-later
 from django.test import SimpleTestCase
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from rest_framework.test import APIClient
 import yaml
 
@@ -67,3 +67,31 @@ class SessionAuthenticationTests(TestCase):
 		response = self.client.get('/api/v1/auth/me')
 
 		self.assertTrue(response.json()['is_manager'])
+
+	@override_settings(
+		ALLOWED_HOSTS=['testserver', '.app.github.dev'],
+		CSRF_TRUSTED_ORIGINS=['https://localhost:5174', 'https://*.app.github.dev'],
+	)
+	def test_codespaces_forwarded_origins_pass_csrf_validation(self):
+		client = APIClient(enforce_csrf_checks=True)
+		csrf_response = client.get('/api/v1/auth/csrf')
+		csrf_token = csrf_response.json()['csrf_token']
+
+		response = client.post(
+			'/api/v1/auth/login',
+			{'username': 'missing-user', 'password': 'invalid-test-only'},
+			format='json',
+			HTTP_X_CSRFTOKEN=csrf_token,
+			HTTP_ORIGIN='https://chilling-shadow-wv994ggvr7w735q9r-5174.app.github.dev',
+		)
+
+		self.assertEqual(response.status_code, 401)
+
+		localhost_origin = client.post(
+			'/api/v1/auth/login',
+			{'username': 'missing-user', 'password': 'invalid-test-only'},
+			format='json',
+			HTTP_X_CSRFTOKEN=csrf_token,
+			HTTP_ORIGIN='https://localhost:5174',
+		)
+		self.assertEqual(localhost_origin.status_code, 401)

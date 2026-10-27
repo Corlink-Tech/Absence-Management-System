@@ -79,6 +79,10 @@ docker compose ps
 
 دیتابیس PostgreSQL روی `127.0.0.1:5432` در دسترس لپ‌تاپ محلی است. پورت روی همهٔ interfaceهای شبکه منتشر نمی‌شود.
 
+### دسترسی از GitHub Codespaces
+
+Compose توسعه دامنهٔ `.app.github.dev` را برای `ALLOWED_HOSTS` و originهای forwardشدهٔ `https://*.app.github.dev` و `https://localhost:5174` را برای CSRF trust مجاز می‌کند تا فرم ورود بتواند cookie و CSRF token را به API بفرستد. روی لپ‌تاپ یا استقرار دیگری این wildcard را بی‌دلیل فعال نکنید؛ فقط originهای مورد نیاز همان محیط را در `DJANGO_CSRF_TRUSTED_ORIGINS` تعیین کنید. هنگام بازکردن لینک forwardشده باید در GitHub نیز وارد شده باشید.
+
 ## ۵. نام کاربری و گذرواژهٔ ورود
 
 **نام کاربری یا گذرواژهٔ پیش‌فرضی در پروژه وجود ندارد.** هنگام اولین اجرا هیچ حساب آزمایشی، رمز ثابت، کارمند، HR، نوع مرخصی یا سهمیه‌ای seed نمی‌شود.

@@ -13,6 +13,11 @@ if not SECRET_KEY:
 		raise ImproperlyConfigured('DJANGO_SECRET_KEY must be configured outside debug mode.')
 	SECRET_KEY = 'development-only-change-me'
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+CSRF_TRUSTED_ORIGINS = [
+	origin.strip()
+	for origin in os.environ.get('DJANGO_CSRF_TRUSTED_ORIGINS', '').split(',')
+	if origin.strip()
+]
 
 INSTALLED_APPS = [
 	'django.contrib.admin',
